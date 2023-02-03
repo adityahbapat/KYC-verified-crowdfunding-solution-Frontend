@@ -1,54 +1,54 @@
 <template>
-<v-container>
-  <v-card elevation="2">
-    <form class="pa-md-4 mx-lg-auto">
-      <v-text-field
-        v-model="firstName"
-        :error-messages="firstNameErrors"
-        :counter="10"
-        label="First Name"
-        required
-        @input="$v.firstName.$touch()"
-        @blur="$v.firstName.$touch()"
-      ></v-text-field>
-      <v-text-field
-        v-model="lastName"
-        :error-messages="lastNameErrors"
-        :counter="10"
-        label="Last Name"
-        required
-        @input="$v.lastName.$touch()"
-        @blur="$v.lastName.$touch()"
-      ></v-text-field>
-      <v-text-field
-        v-model="email"
-        :error-messages="emailErrors"
-        label="E-mail"
-        required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-      ></v-text-field>
-      <v-file-input
-        v-model="aadhar"
-        label="Aadhar Card Image"
-        required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-        show-size
-        truncate-length="15"
-      ></v-file-input>
+  <v-container>
+    <v-card elevation="2">
+      <form class="pa-md-4 mx-lg-auto">
+        <v-text-field
+          v-model="firstName"
+          :error-messages="firstNameErrors"
+          :counter="10"
+          label="First Name"
+          required
+          @input="$v.firstName.$touch()"
+          @blur="$v.firstName.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="lastName"
+          :error-messages="lastNameErrors"
+          :counter="10"
+          label="Last Name"
+          required
+          @input="$v.lastName.$touch()"
+          @blur="$v.lastName.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="email"
+          :error-messages="emailErrors"
+          label="E-mail"
+          required
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
+        ></v-text-field>
+        <v-file-input
+          v-model="aadhar"
+          label="Aadhar Card Image"
+          required
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
+          show-size
+          truncate-length="15"
+        ></v-file-input>
 
-      <v-btn class="mr-4" @click="submit"> submit </v-btn>
-      <v-btn @click="clear"> clear </v-btn>
-    </form>
-  </v-card>
+        <v-btn class="mr-4" @click="submit"> submit </v-btn>
+        <v-btn @click="clear"> clear </v-btn>
+      </form>
+    </v-card>
   </v-container>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   mixins: [validationMixin],
@@ -110,6 +110,10 @@ export default {
         aadhar: this.aadhar,
       };
       console.log(verificationData);
+      
+      axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
+        console.log(response);
+      });
     },
     clear() {
       this.$v.$reset();

@@ -1,6 +1,13 @@
 # secure-funds-ui
 
 ## Project setup
+Create a .env file with contents
+```
+VUE_APP_ENV_BACKEND=http://127.0.0.1:5000
+```
+
+then perform
+
 ```
 npm install
 ```
