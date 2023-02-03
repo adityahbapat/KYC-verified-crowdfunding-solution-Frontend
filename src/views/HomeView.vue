@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card elevation="2">
-      <form class="pa-md-4 mx-lg-auto">
+      <form class="pa-md-4 mx-lg-auto" >
         <v-text-field
           v-model="firstName"
           :error-messages="firstNameErrors"
@@ -28,6 +28,22 @@
           @input="$v.email.$touch()"
           @blur="$v.email.$touch()"
         ></v-text-field>
+        <v-text-field
+          v-model="city"
+          :error-messages="cityErrors"
+          label="City"
+          required
+          @input="$v.city.$touch()"
+          @blur="$v.city.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="pincode"
+          :error-messages="pincodeErrors"
+          label="Pincode"
+          required
+          @input="$v.firstName.$touch()"
+          @blur="$v.firstName.$touch()"
+        ></v-text-field>
         <v-file-input
           v-model="aadhar"
           label="Aadhar Card Image"
@@ -37,6 +53,19 @@
           show-size
           truncate-length="15"
         ></v-file-input>
+        <v-text-field
+          v-model="password"
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Password"
+          hint="At least 6 characters"
+          counter
+          @click:append="show1 = !show1"
+          @input="$v.password.$touch()"
+          @blur="$v.password.$touch()"
+        ></v-text-field>
 
         <v-btn class="mr-4" @click="submit"> submit </v-btn>
         <v-btn @click="clear"> clear </v-btn>
@@ -58,6 +87,10 @@ export default {
     lastName: { required },
     email: { required, email },
     select: { required },
+    city: { required },
+    pincode: { required, maxLength: maxLength(6) },
+    password: { required },
+    aadhar: { required },
     checkbox: {
       checked(val) {
         return val;
@@ -70,7 +103,15 @@ export default {
     lastName: "",
     email: "",
     aadhar: null,
+    city: "",
+    pincode: "",
+    password: "",
+    show1: false,
     checkbox: false,
+    rules: {
+      required: (value) => !!value || "Required.",
+      min: (v) => v.length >= 6 || "Min 6 characters",
+    },
   }),
 
   computed: {
@@ -92,6 +133,22 @@ export default {
       !this.$v.lastName.required && errors.push("Last Name is required.");
       return errors;
     },
+    cityErrors() {
+      const errors = [];
+      if (!this.$v.city.$dirty) return errors;
+      !this.$v.city.required && errors.push("City is required.");
+      return errors;
+    },
+    pincodeErrors() {
+      const errors = [];
+      if (!this.$v.pincode.$dirty) return errors;
+      !this.$v.pincode.maxLength &&
+        errors.push("Pincode must be 6 characters long");
+      !this.$v.pincode.minLength &&
+        errors.push("Pincode must be 6 characters long");
+      !this.$v.pincode.required && errors.push("Pincode is required.");
+      return errors;
+    },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -103,14 +160,20 @@ export default {
 
   methods: {
     submit() {
-      let verificationData = {
-        firstName: this.firstName,
-        lastName: this.lastName,
+      let data2 = {
+        fname: this.firstName,
+        lname: this.lastName,
         email: this.email,
-        aadhar: this.aadhar,
+        city: this.city,
+        pincode: this.pincode,
+        password: this.password,
       };
-      console.log(verificationData);
-      
+      let form = {
+        document: this.aadhar,
+        data2: data2,
+      };
+      console.log("formData:",form);
+
       axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
         console.log(response);
       });
@@ -120,6 +183,9 @@ export default {
       this.firstName = "";
       this.lastName = "";
       this.email = "";
+      this.city = "";
+      this.pincode = "";
+      this.password = "";
       this.aadhar = null;
       this.select = null;
     },
