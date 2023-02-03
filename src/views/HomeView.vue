@@ -1,7 +1,13 @@
 <template>
   <v-container>
+    <v-img
+  lazy-src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
+  max-height="400"
+  max-width="100%"
+  src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
+></v-img>
     <v-card elevation="2">
-      <form class="pa-md-4 mx-lg-auto" >
+      <form class="px-2 py-2" >
         <v-text-field
           v-model="firstName"
           :error-messages="firstNameErrors"
