@@ -172,7 +172,7 @@ export default {
         document: this.aadhar,
         data2: data2,
       };
-      console.log(form);
+      console.log("formData:",form);
 
       axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
         console.log(response);
