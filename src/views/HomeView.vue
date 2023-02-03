@@ -135,10 +135,17 @@ export default {
         pincode: this.pincode,
         password: this.password,
       };
-      let form = {
-        document: this.aadhar,
-        data2: data2,
-      };
+      // let form = {
+      //   document: this.aadhar,
+      //   data2: data2,
+      // };
+      let form = new FormData();
+      form.append("document", this.aadhar);
+      form.append("data2", JSON.stringify(data2));
+      // let form = {
+      //   document: this.aadhar,
+      //   data2: data2,
+      // };
       console.log("formData:", form);
 
       axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
