@@ -1,83 +1,33 @@
 <template>
-  <v-container>
-    <v-img
-      lazy-src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
-      max-height="400"
-      max-width="100%"
-      src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
-    ></v-img>
-    <v-card elevation="2">
-      <form class="px-2 py-2">
-        <v-text-field
-          v-model="firstName"
-          :error-messages="firstNameErrors"
-          :counter="10"
-          label="First Name"
-          required
-          @input="$v.firstName.$touch()"
-          @blur="$v.firstName.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="lastName"
-          :error-messages="lastNameErrors"
-          :counter="10"
-          label="Last Name"
-          required
-          @input="$v.lastName.$touch()"
-          @blur="$v.lastName.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="city"
-          :error-messages="cityErrors"
-          label="City"
-          required
-          @input="$v.city.$touch()"
-          @blur="$v.city.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="pincode"
-          :error-messages="pincodeErrors"
-          label="Pincode"
-          required
-          @input="$v.firstName.$touch()"
-          @blur="$v.firstName.$touch()"
-        ></v-text-field>
-        <v-file-input
-          v-model="aadhar"
-          label="Aadhar Card Image"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-          show-size
-          truncate-length="15"
-        ></v-file-input>
-        <v-text-field
-          v-model="password"
-          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="[rules.required, rules.min]"
-          :type="show1 ? 'text' : 'password'"
-          name="input-10-1"
-          label="Password"
-          hint="At least 6 characters"
-          counter
-          @click:append="show1 = !show1"
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
-        ></v-text-field>
+  <div>
+    <v-container>
+      <v-img lazy-src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png" max-height="400" max-width="100%"
+        src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"></v-img>
+      <v-card elevation="2">
+        <form class="px-2 py-2">
+          <v-text-field v-model="firstName" :error-messages="firstNameErrors" :counter="10" label="First Name" required
+            @input="$v.firstName.$touch()" @blur="$v.firstName.$touch()"></v-text-field>
+          <v-text-field v-model="lastName" :error-messages="lastNameErrors" :counter="10" label="Last Name" required
+            @input="$v.lastName.$touch()" @blur="$v.lastName.$touch()"></v-text-field>
+          <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()"
+            @blur="$v.email.$touch()"></v-text-field>
+          <v-text-field v-model="city" :error-messages="cityErrors" label="City" required @input="$v.city.$touch()"
+            @blur="$v.city.$touch()"></v-text-field>
+          <v-text-field v-model="pincode" :error-messages="pincodeErrors" label="Pincode" required
+            @input="$v.firstName.$touch()" @blur="$v.firstName.$touch()"></v-text-field>
+          <v-file-input v-model="aadhar" label="Aadhar Card Image" required @input="$v.email.$touch()"
+            @blur="$v.email.$touch()" show-size truncate-length="15"></v-file-input>
+          <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password"
+            hint="At least 6 characters" counter @click:append="show1 = !show1" @input="$v.password.$touch()"
+            @blur="$v.password.$touch()"></v-text-field>
 
-        <v-btn class="mr-4" @click="submit"> submit </v-btn>
-        <v-btn @click="clear"> clear </v-btn>
-      </form>
-    </v-card>
-  </v-container>
+          <v-btn class="mr-4" @click="submit"> submit </v-btn>
+          <v-btn @click="clear"> clear </v-btn>
+        </form>
+      </v-card>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -114,6 +64,8 @@ export default {
     password: "",
     show1: false,
     checkbox: false,
+    loader: null,
+    loading3: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 6 || "Min 6 characters",
@@ -163,7 +115,16 @@ export default {
       return errors;
     },
   },
+  watch: {
+    loader() {
+      const l = this.loader
+      this[l] = !this[l]
 
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    },
+  },
   methods: {
     submit() {
       let data2 = {
@@ -174,27 +135,15 @@ export default {
         pincode: this.pincode,
         password: this.password,
       };
-      let form = new FormData();
-      form.append("document", this.aadhar);
-      form.append("data2", data2);
-      // let form = {
-      //   document: this.aadhar,
-      //   data2: data2,
-      // };
+      let form = {
+        document: this.aadhar,
+        data2: data2,
+      };
       console.log("formData:", form);
 
-      // axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
-      //   console.log(response);
-      // });
-
-      axios
-        .post(process.env.VUE_APP_ENV_BACKEND + "kycUserCreate", form)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
+        console.log(response);
+      });
     },
     clear() {
       this.$v.$reset();
@@ -210,3 +159,50 @@ export default {
   },
 };
 </script>
+
+<style>
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

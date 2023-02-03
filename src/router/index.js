@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import SecureFundsView from '../views/SecureFundsView.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +10,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/crowdfunding',
+    name: 'SecureFundsView',
+    component: SecureFundsView
   },
   {
     path: '/about',
@@ -27,3 +33,4 @@ const router = new VueRouter({
 })
 
 export default router
+
