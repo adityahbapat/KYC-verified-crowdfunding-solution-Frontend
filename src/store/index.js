@@ -8,6 +8,8 @@ export default new Vuex.Store({
     accountId: null,
     connected: false,
     wallet: false,
+    dirname: null,
+    id: null,
     snackbar: {
       content: "",
       color: "",

@@ -5,7 +5,10 @@ import SecureFundsView from "../views/SecureFundsView.vue";
 import VerifyView from "../views/VerifyView.vue";
 import viewCampaign from "../views/viewCampaign.vue";
 import CreateCampaign from "../views/createCampaign.vue";
-Vue.use(VueRouter);
+// import CampaignView from '../views/CampaignView.vue'
+import LoginView from '../views/LoginView.vue'
+
+Vue.use(VueRouter)
 
 const routes = [
   {
@@ -14,9 +17,14 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/crowdfunding",
-    name: "SecureFundsView",
-    component: SecureFundsView,
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/crowdfunding',
+    name: 'SecureFundsView',
+    component: SecureFundsView
   },
   {
     path: "/verify",

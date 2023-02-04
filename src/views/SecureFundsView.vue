@@ -7,7 +7,7 @@
         >
       </v-col>
       <v-col cols="9" class="text-right">
-        <v-btn class="mx-1" @click="$router.push({ path: '/createCampaign' })"
+        <v-btn class="mx-1 my-2" @click="$router.push({ path: '/createCampaign' })"
           >Create Campaign</v-btn
         >
         <v-btn class="mx-2"> How it works!</v-btn>
