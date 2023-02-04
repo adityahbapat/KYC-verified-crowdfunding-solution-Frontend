@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SecureFundsView from '../views/SecureFundsView.vue'
+import VerifyView from '../views/VerifyView.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/crowdfunding',
     name: 'SecureFundsView',
     component: SecureFundsView
+  },
+  {
+    path: '/verify',
+    name: 'VerifyView',
+    component: VerifyView
   },
   {
     path: '/about',

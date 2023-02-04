@@ -13,15 +13,11 @@
         >
           <v-btn class="mx-1">Crowdfunding</v-btn></router-link
         >
-        <!-- <v-btn class="mx-1">How it works!</v-btn> -->
-        <router-link
-          style="text-decoration: none; color: inherit"
-          to="#login"
-        >
-          <v-btn color="blue-grey" class="ma-2 white--text">
+      
+          <v-btn style="cursor:pointer;" @click="scrollToLogin" color="blue-grey" class="ma-2 white--text">
             Login/Signup
           </v-btn>
-        </router-link>
+
       </v-col>
     </v-card-actions>
     <v-container class="lighten-5">
@@ -29,7 +25,7 @@
         <v-row no-gutters>
           <v-col cols="6" class="text-center">
             <div class="heading">
-              <h1>Secure Patrons</h1>
+              <h1 class="txt">Secure Patrons</h1>
               <h3>The KYC trusted crowd-funding portal</h3>
             </div>
           </v-col>
@@ -44,9 +40,9 @@
           </v-col>
         </v-row>
       </div>
+        <div id="login" ref="login">
       <v-row>
-        <div id="login">
-          <v-col cols="12">
+          <v-col>
             <v-img
               lazy-src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
               max-height="300"
@@ -132,9 +128,9 @@
               <v-btn @click="clear" outlined color="primary"> clear </v-btn>
             </form>
           </v-col>
+      </v-row>
         </div>
         <!-- <v-col> </v-col> -->
-      </v-row>
     </v-container>
   </div>
 </template>
@@ -181,13 +177,6 @@ export default {
       min: (v) => v.length >= 6 || "Min 6 characters",
     },
   }),
-
-  // mounted: function () {
-  //   if (this.$router.currentRoute["hash"]) {
-  //     Vue.use(VueScrollTo);
-  //     VueScrollTo.scrollTo(this.$router.currentRoute["hash"], 500);
-  //   }
-  // },
 
   computed: {
     checkboxErrors() {
@@ -243,6 +232,9 @@ export default {
     },
   },
   methods: {
+     scrollToLogin() {
+      this.$refs["login"].scrollIntoView({ behavior: "smooth" })
+    },
     submit() {
       let data2 = {
         fname: this.firstName,
@@ -268,6 +260,7 @@ export default {
       axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
         console.log(response);
       });
+      this.$router.push("/verify");
     },
     clear() {
       this.$v.$reset();
@@ -288,6 +281,11 @@ export default {
 <style>
 .clr {
   background-color: #9c77e0;
+}
+
+.txt{
+  font-size: 4rem;
+  color: #9c77e0;
 }
 
 .full {
