@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-card-actions class="clr">
-      <v-col>
+      <v-col cols="3">
         <router-link style="text-decoration: none; color: inherit" to="/">
           <v-btn text>Secure Patrons</v-btn></router-link
         >
       </v-col>
-      <v-col class="text-right">
+      <v-col cols="9" class="text-right">
         <v-btn class="mx-1">Create Campaign</v-btn>
-        <v-btn class="mx-1">How it works!</v-btn>
+        <v-btn class="mx-2"> How it works!</v-btn>
         <v-btn
           color="blue-grey"
           class="ma-2 white--text"
@@ -20,9 +20,41 @@
             mdi-cloud-upload
           </v-icon>
         </v-btn>
-        <v-btn v-else-if="$store.state.wallet && $store.state.connected">
+
+        <!-- <v-btn v-else-if="$store.state.wallet && $store.state.connected">
           {{  $store.state.accountId.substring(0,10)+"..." }}</v-btn
+        > -->
+        <v-menu offset-y v-else-if="$store.state.wallet && $store.state.connected">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+        outline
+        class="mx-1"
+          v-bind="attrs"
+          v-on="on"
         >
+          {{$store.state.accountId.substring(0, 10) + "..."}} <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+        >
+          <v-list-item-title><v-btn>Disconnect Wallet</v-btn></v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+        <!-- <v-expansion-panels
+          focusable
+          v-else-if="$store.state.wallet && $store.state.connected"
+        >
+          <v-expansion-panel style="max-width: 240px">
+              <v-expansion-panel-header>{{
+                $store.state.accountId.substring(0, 10) + "..."
+              }}</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-btn class="my-1">Disconnect Wallet</v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels> -->
         <v-btn v-else>
           <v-icon>mdi-download</v-icon>
           <a
