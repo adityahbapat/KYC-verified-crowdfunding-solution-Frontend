@@ -82,6 +82,7 @@ export default {
           });
       }
     },
+    disconnect() {},
   },
   watch: {},
 };
