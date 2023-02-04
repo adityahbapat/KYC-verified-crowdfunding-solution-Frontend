@@ -13,11 +13,23 @@
         >
           <v-btn class="mx-1">Crowdfunding</v-btn></router-link
         >
-      
-          <v-btn style="cursor:pointer;" @click="scrollToLogin" color="blue-grey" class="ma-2 white--text">
-            Login/Signup
-          </v-btn>
 
+        <v-btn
+          style="cursor: pointer"
+          @click="scrollToLogin()"
+          color="blue-grey"
+          class="ma-2 white--text"
+        >
+         Signup
+        </v-btn>
+
+        <router-link
+          style="text-decoration: none; color: inherit"
+          to="/login"
+        >
+          <v-btn class="mx-1 white--text" color="blue-grey">Login</v-btn></router-link
+        >
+        
       </v-col>
     </v-card-actions>
     <v-container class="lighten-5">
@@ -40,8 +52,8 @@
           </v-col>
         </v-row>
       </div>
-        <div id="login" ref="login">
-      <v-row>
+      <div id="login" ref="login">
+        <v-row>
           <v-col>
             <v-img
               lazy-src="https://brightdata.com/wp-content/uploads/2019/06/blog_kyc.png"
@@ -128,9 +140,9 @@
               <v-btn @click="clear" outlined color="primary"> clear </v-btn>
             </form>
           </v-col>
-      </v-row>
-        </div>
-        <!-- <v-col> </v-col> -->
+        </v-row>
+      </div>
+      <!-- <v-col> </v-col> -->
     </v-container>
   </div>
 </template>
@@ -138,8 +150,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import Vue from 'vue';
+import Vue from "vue";
 import axios from "axios";
+import store from "@/store/index.js";
+import router from "@/router/index.js";
 
 export default {
   mixins: [validationMixin],
@@ -232,8 +246,8 @@ export default {
     },
   },
   methods: {
-     scrollToLogin() {
-      this.$refs["login"].scrollIntoView({ behavior: "smooth" })
+    scrollToLogin() {
+      this.$refs["login"].scrollIntoView({ behavior: "smooth" });
     },
     submit() {
       let data2 = {
@@ -255,12 +269,29 @@ export default {
       //   document: this.aadhar,
       //   data2: data2,
       // };
-      console.log("formData:", form);
+      console.log("form:", form);
 
-      axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
-        console.log(response);
-      });
-      this.$router.push("/verify");
+      // to check if backend is running
+      // axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
+      //   console.log(response);
+      // });
+    if(this.aadhar){
+      axios
+        .post(process.env.VUE_APP_ENV_BACKEND + "kycUserCreate", form)
+        .then(function (response) {
+          store.state.dirname = response.data.dirname;
+          store.state.id = response.data.id;
+          console.log("dirname", store.state.dirname);
+          console.log("id", store.state.id);
+          console.log(response);
+          router.push("/verify");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }else{
+      console.log("Invalid form Submission!")
+    }
     },
     clear() {
       this.$v.$reset();
@@ -283,7 +314,7 @@ export default {
   background-color: #9c77e0;
 }
 
-.txt{
+.txt {
   font-size: 4rem;
   color: #9c77e0;
 }
