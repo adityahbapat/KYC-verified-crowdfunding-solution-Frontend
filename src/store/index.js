@@ -8,8 +8,18 @@ export default new Vuex.Store({
     accountId: null,
     connected: false,
     wallet: false,
+    snackbar: {
+      content: "",
+      color: "",
+      icon: "",
+      isVisible: false,
+    },
   },
-  getters: {},
+  getters: {
+    getSnackbar: (state) => {
+      return state.snackbar;
+    },
+  },
   mutations: {
     setAccountId(state, accountId) {
       state.accountId = accountId;
@@ -19,7 +29,13 @@ export default new Vuex.Store({
     },
     setWallet(state, wallet) {
       state.wallet = wallet;
-    }
+    },
+    setSnackbar(state, payload) {
+      state.snackbar = payload;
+    },
+    closeSnackbar(state) {
+      state.snackbar.isVisible = false;
+    },
   },
   actions: {},
   modules: {},

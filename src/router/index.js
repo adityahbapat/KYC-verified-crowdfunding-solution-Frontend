@@ -1,48 +1,53 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import SecureFundsView from '../views/SecureFundsView.vue'
-import VerifyView from '../views/VerifyView.vue'
-import CampaignView from '../views/CampaignView.vue'
-
-Vue.use(VueRouter)
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import SecureFundsView from "../views/SecureFundsView.vue";
+import VerifyView from "../views/VerifyView.vue";
+import viewCampaign from "../views/viewCampaign.vue";
+import CreateCampaign from "../views/createCampaign.vue";
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/crowdfunding',
-    name: 'SecureFundsView',
-    component: SecureFundsView
+    path: "/crowdfunding",
+    name: "SecureFundsView",
+    component: SecureFundsView,
   },
   {
-    path: '/verify',
-    name: 'VerifyView',
-    component: VerifyView
+    path: "/verify",
+    name: "VerifyView",
+    component: VerifyView,
   },
   {
-    path: '/campaign',
-    name: 'CampaignView',
-    component: CampaignView
+    path: "/campaign/:id",
+    name: "viewCampaign",
+    component: viewCampaign,
   },
   {
-    path: '/about',
-    name: 'about',
+    path: "/createCampaign",
+    name: "CreateCampaign",
+    component: CreateCampaign,
+  },
+  {
+    path: "/about",
+    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
-
+export default router;

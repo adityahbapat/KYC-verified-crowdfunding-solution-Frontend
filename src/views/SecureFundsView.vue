@@ -7,7 +7,9 @@
         >
       </v-col>
       <v-col cols="9" class="text-right">
-        <v-btn class="mx-1">Create Campaign</v-btn>
+        <v-btn class="mx-1" @click="$router.push({ path: '/createCampaign' })"
+          >Create Campaign</v-btn
+        >
         <v-btn class="mx-2"> How it works!</v-btn>
         <v-btn
           color="blue-grey"
@@ -20,41 +22,13 @@
             mdi-cloud-upload
           </v-icon>
         </v-btn>
-
-        <!-- <v-btn v-else-if="$store.state.wallet && $store.state.connected">
-          {{  $store.state.accountId.substring(0,10)+"..." }}</v-btn
-        > -->
-        <v-menu offset-y v-else-if="$store.state.wallet && $store.state.connected">
-      <template v-slot:activator="{ on, attrs }">
         <v-btn
-        outline
-        class="mx-1"
-          v-bind="attrs"
-          v-on="on"
-        >
-          {{$store.state.accountId.substring(0, 10) + "..."}} <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-        >
-          <v-list-item-title><v-btn>Disconnect Wallet</v-btn></v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-        <!-- <v-expansion-panels
-          focusable
+          outlined
+          class="mx-1"
           v-else-if="$store.state.wallet && $store.state.connected"
         >
-          <v-expansion-panel style="max-width: 240px">
-              <v-expansion-panel-header>{{
-                $store.state.accountId.substring(0, 10) + "..."
-              }}</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-btn class="my-1">Disconnect Wallet</v-btn>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels> -->
+          {{ $store.state.accountId.substring(0, 10) + "..." }}
+        </v-btn>
         <v-btn v-else>
           <v-icon>mdi-download</v-icon>
           <a
@@ -65,12 +39,55 @@
         </v-btn>
       </v-col>
     </v-card-actions>
+    <v-container class="my-5">
+      <div v-if="loading || !campaigns">
+        <div class="d-flex">
+          <v-skeleton-loader
+            class="mx-auto"
+            width="300"
+            type="card"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="mx-auto"
+            width="300"
+            type="card"
+          ></v-skeleton-loader>
+          <v-skeleton-loader
+            class="mx-auto"
+            width="300"
+            type="card"
+          ></v-skeleton-loader>
+        </div>
+      </div>
+      <div class="d-flex" v-else>
+        <campaign-card
+          v-for="(campaign, index) in campaigns"
+          :key="campaign[0]"
+          :campaign="campaign"
+          :id="campaigns[index]"
+          class="mx-auto"
+        ></campaign-card>
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
+import factory from "../../smart-contract/factory";
+import web3 from "../../smart-contract/web3";
+import Campaign from "../../smart-contract/campaign";
+import campaignCard from "../components/campaignCard.vue";
 export default {
-  data: () => ({}),
+  data: () => ({
+    campaigns: undefined,
+    loading: true,
+  }),
+  components: {
+    campaignCard,
+  },
+  created() {
+    this.getDeployedCampaigns();
+  },
   methods: {
     connect() {
       if (window.ethereum) {
@@ -82,7 +99,24 @@ export default {
           });
       }
     },
-    disconnect() {},
+    async getDeployedCampaigns() {
+      this.loading = true;
+      this.campaigns = await factory.methods.getDeployedCampaigns().call();
+      this.getSummary();
+    },
+    async getSummary() {
+      try {
+        const summary = await Promise.all(
+          this.campaigns.map((campaign, i) =>
+            Campaign(this.campaigns[i]).methods.getSummary().call()
+          )
+        );
+        this.campaigns = summary;
+      } catch (e) {
+        console.log(e);
+      }
+      this.loading = false;
+    },
   },
   watch: {},
 };

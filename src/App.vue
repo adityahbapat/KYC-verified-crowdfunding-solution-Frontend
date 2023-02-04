@@ -1,6 +1,8 @@
 <template>
   <v-app>
     <v-main>
+      <Snackbar />
+
       <router-view />
     </v-main>
   </v-app>
@@ -8,15 +10,23 @@
 
 <script>
 import web3 from "../smart-contract/web3";
+import Snackbar from "@/components/Snackbar.vue";
+
 export default {
   name: "App",
-
+  components: { Snackbar },
   data: () => ({
     //
   }),
   async created() {
+    this.$store.commit("setSnackbar", {
+      content: "",
+      color: "",
+      icon: "",
+      isVisible: false,
+    });
     const accounts = await web3.eth.getAccounts();
-    if(accounts.length > 0) {
+    if (accounts.length > 0) {
       this.$store.commit("setConnected", true);
       this.$store.commit("setAccountId", accounts[0]);
     }
