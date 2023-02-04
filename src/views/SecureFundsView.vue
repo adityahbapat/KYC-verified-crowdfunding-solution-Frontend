@@ -6,22 +6,38 @@
           <v-btn text>Secure Patrons</v-btn></router-link
         >
       </v-col>
-      <v-col cols="9" class="text-right">
-        <v-btn class="mx-1 my-2" @click="$router.push({ path: '/createCampaign' })"
+
+      <v-col cols="4" class="text-center"
+        ><v-badge :color="content == 'Verified' ? 'green' : 'red'" dot 
+          ><v-btn
+            elevation="4"
+            outlined
+            rounded
+            :color="content == 'Verified' ? 'green' : 'red'"
+            >{{ content }}</v-btn
+          ></v-badge
+        >
+      </v-col>
+      <v-col cols="5" class="text-right">
+        <v-btn
+          class="mx-1 my-2"
+          @click="$router.push({ path: '/createCampaign' })"
           >Create Campaign</v-btn
         >
         <v-btn class="mx-2"> How it works!</v-btn>
+
         <v-btn
+          v-if="$store.state.wallet && !$store.state.connected"
           color="blue-grey"
           class="ma-2 white--text"
           @click="connect()"
-          v-if="$store.state.wallet && !$store.state.connected"
         >
           Connect Wallet
           <v-icon v-if="!$store.state.connected" right dark>
             mdi-cloud-upload
           </v-icon>
         </v-btn>
+
         <v-btn
           outlined
           class="mx-1"
@@ -81,12 +97,20 @@ export default {
   data: () => ({
     campaigns: undefined,
     loading: true,
+    hover: false,
+    content: "Not Verified",
   }),
   components: {
     campaignCard,
   },
   created() {
     this.getDeployedCampaigns();
+    console.log(window.localStorage.getItem("token"));
+    if (window.localStorage.getItem("token")) {
+      this.content = "Verified";
+    } else {
+      this.content = "Not Verified";
+    }
   },
   methods: {
     connect() {

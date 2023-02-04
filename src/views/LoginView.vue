@@ -51,7 +51,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="#9c77e0" to="/">Login</v-btn>
+                <v-btn color="#9c77e0" @click="submit()">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -62,12 +62,37 @@
 </template>
 
 <script>
+import axios from 'axios';
+import router from '@/router/index.js';
+
 export default {
   name: "Login",
   data: () => ({
     email: "",
     password: "",
   }),
+
+  methods: {
+    submit(){
+        let formData = {"email": this.email, "password": this.password};
+        console.log(formData);
+        axios
+        .post(process.env.VUE_APP_ENV_BACKEND + "login", formData)
+        .then(function (response) {
+          console.log(response);
+          window.localStorage.setItem('token', response.data.token);
+          router.push("/crowdfunding");
+        })
+        .catch(function (error) {
+            this.email = ""
+            this.password = ""
+            window.localStorage.setItem('token', null);
+          console.log(error);
+        });
+
+
+    }
+  }
 };
 </script>
 

@@ -275,7 +275,7 @@ export default {
       // axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
       //   console.log(response);
       // });
-
+    if(this.aadhar){
       axios
         .post(process.env.VUE_APP_ENV_BACKEND + "kycUserCreate", form)
         .then(function (response) {
@@ -289,6 +289,9 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    }else{
+      console.log("Invalid form Submission!")
+    }
     },
     clear() {
       this.$v.$reset();
