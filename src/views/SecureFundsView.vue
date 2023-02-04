@@ -8,10 +8,9 @@
       </v-col>
 
       <v-col cols="4" class="text-center"
-        ><v-badge :color="content == 'Verified' ? 'green' : 'red'" dot 
+        ><v-badge :color="content == 'Verified' ? 'green' : 'red'" dot
           ><v-btn
             elevation="4"
-            outlined
             rounded
             :color="content == 'Verified' ? 'green' : 'red'"
             >{{ content }}</v-btn
@@ -85,6 +84,76 @@
         ></campaign-card>
       </div>
     </v-container>
+    <div class="working">
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-card class="mx-auto" elevation="0" tile>
+              <v-img
+                lazy-src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
+                max-height="100"
+                max-width="350"
+                src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
+              ></v-img>
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <div class="text-overline mb-4">
+                    Create a Campaign for Fundraising
+                  </div>
+
+                  <v-list-item-subtitle class="mb-1"
+                    >Get yourself verified within minutes.
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card class="mx-auto" elevation="0" tile>
+              <v-img
+                lazy-src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
+                max-height="100"
+                max-width="350"
+                src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
+              ></v-img>
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <div class="text-overline mb-4">Share your Campaign</div>
+                  <v-list-item-subtitle class="mb-1"
+                    >All you need to do is share the Campaign with your friends,
+                    family and others. In no time, support will start pouring
+                    in.
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card class="mx-auto" elevation="0" tile>
+              
+              <v-img
+                lazy-src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
+                max-height="100"
+                max-width="350"
+                src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
+              ></v-img>
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <div class="text-overline mb-4">
+                    Request and Withdraw Funds
+                  </div>
+                  <v-list-item-subtitle class="mb-1"
+                    >The funds raised can be withdrawn directly to the recipient
+                    when 50% of the contributors approve of the Withdrawal
+                    Request.
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
