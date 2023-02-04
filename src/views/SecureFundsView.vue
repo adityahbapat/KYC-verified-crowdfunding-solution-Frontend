@@ -1,12 +1,8 @@
-
-
-
-
 <template>
     <div>
-        <v-card-actions class="blue">
+        <v-card-actions class="purple">
             <v-col>
-                <v-btn text>Kyc secured crowdfunding</v-btn>
+                <v-btn text>Secure Patrons</v-btn>
             </v-col>
             <v-col class="text-right">
 
