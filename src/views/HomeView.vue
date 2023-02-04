@@ -260,6 +260,7 @@ export default {
       axios.get(process.env.VUE_APP_ENV_BACKEND).then(function (response) {
         console.log(response);
       });
+      this.$router.push("/verify");
     },
     clear() {
       this.$v.$reset();
