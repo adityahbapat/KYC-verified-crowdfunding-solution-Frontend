@@ -6,7 +6,6 @@
       })
     "
   >
-    {{ id }}
     <v-card class="mx-auto my-12" max-width="374">
       <v-img height="250" :src="campaign[7]"></v-img>
       <v-card-title>{{ campaign[5] }}</v-card-title>

@@ -6,9 +6,10 @@ import VerifyView from "../views/VerifyView.vue";
 import viewCampaign from "../views/viewCampaign.vue";
 import CreateCampaign from "../views/createCampaign.vue";
 // import CampaignView from '../views/CampaignView.vue'
-import LoginView from '../views/LoginView.vue'
+import LoginView from "../views/LoginView.vue";
 
-Vue.use(VueRouter)
+import withdrawalRequests from "../views/withdrawalRequests";
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -17,14 +18,14 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: "/login",
+    name: "login",
+    component: LoginView,
   },
   {
-    path: '/crowdfunding',
-    name: 'SecureFundsView',
-    component: SecureFundsView
+    path: "/crowdfunding",
+    name: "SecureFundsView",
+    component: SecureFundsView,
   },
   {
     path: "/verify",
@@ -35,6 +36,11 @@ const routes = [
     path: "/campaign/:id",
     name: "viewCampaign",
     component: viewCampaign,
+  },
+  {
+    path: "/campaignRequests/:id",
+    name: "withdrawalRequests",
+    component: withdrawalRequests,
   },
   {
     path: "/createCampaign",

@@ -75,9 +75,9 @@
           ></v-skeleton-loader>
         </div>
       </div>
-      <div class="d-flex" v-else>
+      <div class="d-flex" v-else style="flex-wrap: wrap;">
         <campaign-card
-          v-for="(campaign, index) in campaigns"
+          v-for="(campaign, index) in campaignsList"
           :key="campaign[0]"
           :campaign="campaign"
           :id="campaigns[index]"
@@ -90,7 +90,6 @@
 
 <script>
 import factory from "../../smart-contract/factory";
-import web3 from "../../smart-contract/web3";
 import Campaign from "../../smart-contract/campaign";
 import campaignCard from "../components/campaignCard.vue";
 export default {
@@ -99,6 +98,7 @@ export default {
     loading: true,
     hover: false,
     content: "Not Verified",
+    campaignsList: undefined,
   }),
   components: {
     campaignCard,
@@ -135,7 +135,7 @@ export default {
             Campaign(this.campaigns[i]).methods.getSummary().call()
           )
         );
-        this.campaigns = summary;
+        this.campaignsList = summary;
       } catch (e) {
         console.log(e);
       }

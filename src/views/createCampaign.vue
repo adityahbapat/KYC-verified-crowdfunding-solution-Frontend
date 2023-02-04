@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <h3
+      v-if="creating"
+      class="text-center"
+      style="background-color: aquamarine"
+    >
+      Campaign getting created please wait
+    </h3>
     <div class="d-flex justify-center my-3">
       <v-card style="width: 600px; border: 3px solid #9c77e0">
         <v-container>
@@ -101,6 +108,7 @@ export default {
       targetAmount: "",
       url: "",
       ethPrice: "",
+      creating: false,
     };
   },
   mixins: [validationMixin],
@@ -170,6 +178,7 @@ export default {
         return;
       }
       try {
+        this.creating = true;
         await factory.methods
           .createCampaign(
             web3.utils.toWei(this.minAmount, "ether"),
@@ -181,15 +190,20 @@ export default {
           .send({
             from: this.$store.state.accountId,
           });
+        this.$store.commit("setSnackbar", {
+          content: "Campaign Created Successfully",
+          color: "success",
+          isVisible: true,
+        });
       } catch (err) {
-        setError(err.message);
+        this.$store.commit("setSnackbar", {
+          content: "Something went wrong",
+          color: "error",
+          isVisible: true,
+        });
         console.log(err);
       }
-      this.$store.commit("setSnackbar", {
-        content: "Campaign Created Successfully",
-        color: "success",
-        isVisible: true,
-      });
+      this.creating = false;
       this.$router.push({ path: "/crowdfunding" });
     },
     connect() {
