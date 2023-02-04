@@ -21,7 +21,7 @@
           </v-icon>
         </v-btn>
         <v-btn v-else-if="$store.state.wallet && $store.state.connected">
-          {{ $store.state.accountId }}</v-btn
+          {{  $store.state.accountId.substring(0,10)+"..." }}</v-btn
         >
         <v-btn v-else>
           <v-icon>mdi-download</v-icon>
