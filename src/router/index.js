@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SecureFundsView from '../views/SecureFundsView.vue'
 import VerifyView from '../views/VerifyView.vue'
+import CampaignView from '../views/CampaignView.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/verify',
     name: 'VerifyView',
     component: VerifyView
+  },
+  {
+    path: '/campaign',
+    name: 'CampaignView',
+    component: CampaignView
   },
   {
     path: '/about',
