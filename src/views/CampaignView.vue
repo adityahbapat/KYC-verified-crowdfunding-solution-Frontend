@@ -7,7 +7,6 @@
         >
       </v-col>
       <v-col cols="9" class="text-right">
-        <v-btn class="mx-1">Create Campaign</v-btn>
         <v-btn class="mx-2"> How it works!</v-btn>
         <v-btn
           color="blue-grey"
@@ -42,19 +41,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
-        <!-- <v-expansion-panels
-          focusable
-          v-else-if="$store.state.wallet && $store.state.connected"
-        >
-          <v-expansion-panel style="max-width: 240px">
-              <v-expansion-panel-header>{{
-                $store.state.accountId.substring(0, 10) + "..."
-              }}</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-btn class="my-1">Disconnect Wallet</v-btn>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels> -->
+        
         <v-btn v-else>
           <v-icon>mdi-download</v-icon>
           <a
