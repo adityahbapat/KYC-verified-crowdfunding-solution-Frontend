@@ -10,39 +10,48 @@
         <v-btn class="mx-1">Create Campaign</v-btn>
         <v-btn class="mx-1">How it works!</v-btn>
         <v-btn
-          :loading="loading3"
-          :disabled="loading3"
           color="blue-grey"
           class="ma-2 white--text"
-          @click="loader = 'loading3'"
+          @click="connect()"
+          v-if="$store.state.wallet && !$store.state.connected"
         >
           Connect Wallet
-          <v-icon right dark> mdi-cloud-upload </v-icon>
+          <v-icon v-if="!$store.state.connected" right dark>
+            mdi-cloud-upload
+          </v-icon>
+        </v-btn>
+        <v-btn v-else-if="$store.state.wallet && $store.state.connected">
+          {{ $store.state.accountId }}</v-btn
+        >
+        <v-btn v-else>
+          <v-icon>mdi-download</v-icon>
+          <a
+            href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
+            target="_blank"
+            >Install Metamask</a
+          >
         </v-btn>
       </v-col>
     </v-card-actions>
   </div>
-</template>  
+</template>
 
 <script>
-// import axios from "axios";
-
 export default {
-  data: () => ({
-    loader: null,
-    loading3: false,
-  }),
-
-  watch: {
-    loader() {
-      const l = this.loader;
-      this[l] = !this[l];
-
-      setTimeout(() => (this[l] = false), 3000);
-
-      this.loader = null;
+  data: () => ({}),
+  methods: {
+    connect() {
+      if (window.ethereum) {
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then((data) => {
+            this.$store.commit("setConnected", true);
+            this.$store.commit("setAccountId", data[0]);
+          });
+      }
     },
   },
+  watch: {},
 };
 </script>
 
