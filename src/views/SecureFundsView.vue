@@ -23,7 +23,7 @@
           @click="$router.push({ path: '/createCampaign' })"
           >Create Campaign</v-btn
         >
-        <v-btn class="mx-2"> How it works!</v-btn>
+        <v-btn class="mx-2" @click="scrollToWork()"> How it works!</v-btn>
 
         <v-btn
           v-if="$store.state.wallet && !$store.state.connected"
@@ -84,14 +84,14 @@
         ></campaign-card>
       </div>
     </v-container>
-    <div class="working">
+    <div class="working" ref="work">
       <v-container>
         <v-row>
           <v-col>
             <v-card class="mx-auto" elevation="0" tile>
               <v-img
                 lazy-src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
               ></v-img>
@@ -112,7 +112,7 @@
             <v-card class="mx-auto" elevation="0" tile>
               <v-img
                 lazy-src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
               ></v-img>
@@ -133,7 +133,7 @@
               
               <v-img
                 lazy-src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
               ></v-img>
@@ -182,6 +182,9 @@ export default {
     }
   },
   methods: {
+      scrollToWork() {
+      this.$refs["work"].scrollIntoView({ behavior: "smooth" });
+    },
     connect() {
       if (window.ethereum) {
         window.ethereum
