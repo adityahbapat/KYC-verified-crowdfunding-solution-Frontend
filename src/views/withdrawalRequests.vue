@@ -10,7 +10,7 @@
         <v-btn class="mx-1" @click="$router.push({ path: '/createCampaign' })"
           >Create Campaign</v-btn
         >
-        <v-btn class="mx-2"> How it works!</v-btn>
+        <!-- <v-btn class="mx-2"> How it works!</v-btn> -->
         <v-btn
           color="blue-grey"
           class="ma-2 white--text"

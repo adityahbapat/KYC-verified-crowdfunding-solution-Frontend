@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-actions class="clr">
-      <v-col cols="3">
+      <v-col cols="2">
         <router-link style="text-decoration: none; color: inherit" to="/">
           <v-btn text>Secure Patrons</v-btn></router-link
         >
@@ -17,13 +17,13 @@
           ></v-badge
         >
       </v-col>
-      <v-col cols="5" class="text-right">
+      <v-col cols="6" class="text-right">
         <v-btn
           class="mx-1 my-2"
           @click="$router.push({ path: '/createCampaign' })"
           >Create Campaign</v-btn
         >
-        <v-btn class="mx-2"> How it works!</v-btn>
+        <v-btn class="mx-2" @click="scrollToWork()"> How it works!</v-btn>
 
         <v-btn
           v-if="$store.state.wallet && !$store.state.connected"
@@ -44,6 +44,7 @@
         >
           {{ $store.state.accountId.substring(0, 10) + "..." }}
         </v-btn>
+        
         <v-btn v-else>
           <v-icon>mdi-download</v-icon>
           <a
@@ -52,6 +53,10 @@
             >Install Metamask</a
           >
         </v-btn>
+        <v-btn
+             class="mx-1" color="red" v-if="tkn!=null"  @click="logout()"
+            >Logout</v-btn
+          >
       </v-col>
     </v-card-actions>
     <v-container class="my-5">
@@ -84,14 +89,14 @@
         ></campaign-card>
       </div>
     </v-container>
-    <div class="working">
+    <div class="working" ref="work">
       <v-container>
         <v-row>
           <v-col>
             <v-card class="mx-auto" elevation="0" tile>
               <v-img
                 lazy-src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.brainpulse.com/wp-content/uploads/2022/06/performance-marketing-strategy.png"
               ></v-img>
@@ -112,7 +117,7 @@
             <v-card class="mx-auto" elevation="0" tile>
               <v-img
                 lazy-src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.reliablesoft.net/wp-content/uploads/2020/11/digital-marketing-campaign.jpg"
               ></v-img>
@@ -133,7 +138,7 @@
               
               <v-img
                 lazy-src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
-                max-height="100"
+                max-height="200"
                 max-width="350"
                 src="https://www.instituteofcustomerservice.com/wp-content/uploads/2019/12/Online_money_mobile_480x320px.png"
               ></v-img>
@@ -161,6 +166,8 @@
 import factory from "../../smart-contract/factory";
 import Campaign from "../../smart-contract/campaign";
 import campaignCard from "../components/campaignCard.vue";
+import router from "@/router/index.js"
+
 export default {
   data: () => ({
     campaigns: undefined,
@@ -168,6 +175,7 @@ export default {
     hover: false,
     content: "Not Verified",
     campaignsList: undefined,
+    tkn: null,
   }),
   components: {
     campaignCard,
@@ -177,11 +185,15 @@ export default {
     console.log(window.localStorage.getItem("token"));
     if (window.localStorage.getItem("token")) {
       this.content = "Verified";
+      this.tkn = localStorage.getItem('token')
     } else {
       this.content = "Not Verified";
     }
   },
   methods: {
+      scrollToWork() {
+      this.$refs["work"].scrollIntoView({ behavior: "smooth" });
+    },
     connect() {
       if (window.ethereum) {
         window.ethereum
@@ -191,6 +203,10 @@ export default {
             this.$store.commit("setAccountId", data[0]);
           });
       }
+    },
+    logout(){
+      window.localStorage.removeItem('token');
+      router.push("/");
     },
     async getDeployedCampaigns() {
       this.loading = true;

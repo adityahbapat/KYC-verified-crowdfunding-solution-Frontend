@@ -99,6 +99,7 @@ import { required } from "vuelidate/lib/validators";
 import getETHPrice from "../lib/getPrice";
 import factory from "../../smart-contract/factory";
 import web3 from "../../smart-contract/web3";
+import router from "@/router/index.js"
 export default {
   data() {
     return {
@@ -170,6 +171,9 @@ export default {
   },
   async created() {
     this.ethPrice = await getETHPrice();
+     if (window.localStorage.getItem("token") == null) {
+      router.push("/login");
+    }
   },
   methods: {
     async create() {
