@@ -61,11 +61,16 @@
           ><v-icon left> mdi-plus </v-icon> Create Request</v-btn
         >
       </div>
+      <div v-if="web3.utils.fromWei(campaignDetails[1]) <= 0">
+        The Current Balance of the Campaign is 0, Please Contribute to approve
+        and finalize Requests.
+      </div>
       <v-data-table
         :headers="headers"
         :items="requestList"
         :items-per-page="5"
         class="elevation-1"
+        v-else
       >
         <template v-slot:[`item.value`]="row">
           {{ web3.utils.fromWei(row.item.value, "ether") }} ETH (~ ${{
@@ -79,17 +84,21 @@
         </template>
         <template v-slot:[`item.approve`]="item">
           <v-btn
+            v-if="!item.item.complete"
             color="green"
             class="white--text"
             @click="approveRequest(item.index)"
+            :disabled="item.item.approvalCount == approversCount"
             >Approve</v-btn
           >
+          <div v-else>Request Completed</div>
         </template>
         <template v-slot:[`item.finalize`]="item">
           <v-btn
             color="red"
             class="white--text"
             @click="finalizeRequest(item.index)"
+            v-if="!item.item.complete"
             >Finalize</v-btn
           >
         </template>
