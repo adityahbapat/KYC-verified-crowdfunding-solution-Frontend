@@ -41,7 +41,7 @@
     </v-card-actions>
     <v-container>
       <div class="d-flex justify-space-between align-center">
-        <v-btn text
+        <v-btn text @click="$router.push({ path: '/campaign/' + campaignId })"
           ><v-icon left> mdi-backburger </v-icon> Back to campaign</v-btn
         >
         <h4>
@@ -50,21 +50,50 @@
             >{{ web3.utils.fromWei(campaignDetails[1], "ether") }} ETH (~ ${{
               (
                 web3.utils.fromWei(campaignDetails[1], "ether") * ethPrice
-              ).toFixed(4)
+              ).toFixed("4")
             }})</span
           >
         </h4>
       </div>
       <div class="d-flex justify-space-between align-center my-5">
         <h2>Withdrawal request for campaign: {{ campaignDetails[5] }}</h2>
-        <v-btn><v-icon left> mdi-plus </v-icon> Create Request</v-btn>
+        <v-btn @click="$router.push({ path: '/createRequest/' + campaignId })"
+          ><v-icon left> mdi-plus </v-icon> Create Request</v-btn
+        >
       </div>
       <v-data-table
         :headers="headers"
-        :items="data"
-        hide-default-footer
+        :items="requestList"
+        :items-per-page="5"
         class="elevation-1"
-      ></v-data-table>
+      >
+        <template v-slot:[`item.value`]="row">
+          {{ web3.utils.fromWei(row.item.value, "ether") }} ETH (~ ${{
+            (web3.utils.fromWei(row.item.value, "ether") * ethPrice).toFixed(
+              "4"
+            )
+          }})
+        </template>
+        <template v-slot:[`item.approvalCount`]="row">
+          {{ row.item.approvalCount }} / {{ approversCount }}
+        </template>
+        <template v-slot:[`item.approve`]="item">
+          <v-btn
+            color="green"
+            class="white--text"
+            @click="approveRequest(item.index)"
+            >Approve</v-btn
+          >
+        </template>
+        <template v-slot:[`item.finalize`]="item">
+          <v-btn
+            color="red"
+            class="white--text"
+            @click="finalizeRequest(item.index)"
+            >Finalize</v-btn
+          >
+        </template>
+      </v-data-table>
     </v-container>
   </div>
 </template>
@@ -90,7 +119,7 @@ export default {
           sortable: false,
           value: "description",
         },
-        { text: "Amount", value: "amount" },
+        { text: "Amount", value: "value" },
         { text: "Recipient", value: "recipient" },
         { text: "Approval Count", value: "approvalCount" },
         { text: "Approve", value: "approve" },
@@ -108,13 +137,14 @@ export default {
       this.requestCount = await campaign.methods.getRequestsCount().call();
       this.approversCount = await campaign.methods.approversCount().call();
       const requests = await Promise.all(
-        Array(parseInt(requestCount))
+        Array(parseInt(this.requestCount))
           .fill()
           .map((element, index) => {
             return campaign.methods.requests(index).call();
           })
       );
       this.requestList = requests;
+      console.log(this.requestList);
     } catch (e) {
       console.log(e);
     }
@@ -130,6 +160,21 @@ export default {
             this.$store.commit("setAccountId", data[0]);
           });
       }
+    },
+    async approveRequest(id) {
+      console.log("id", id);
+      const campaign = Campaign(this.campaignId);
+      const accounts = await web3.eth.getAccounts();
+      await campaign.methods.approveRequest(id).send({
+        from: accounts[0],
+      });
+    },
+    async finalizeRequest(id) {
+      const campaign = Campaign(this.campaignId);
+      const accounts = await web3.eth.getAccounts();
+      await campaign.methods.finalizeRequest(id).send({
+        from: accounts[0],
+      });
     },
   },
 };

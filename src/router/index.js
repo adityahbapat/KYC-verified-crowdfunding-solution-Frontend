@@ -7,7 +7,7 @@ import viewCampaign from "../views/viewCampaign.vue";
 import CreateCampaign from "../views/createCampaign.vue";
 // import CampaignView from '../views/CampaignView.vue'
 import LoginView from "../views/LoginView.vue";
-
+import createRequests from "../views/createRequests";
 import withdrawalRequests from "../views/withdrawalRequests";
 Vue.use(VueRouter);
 
@@ -46,6 +46,11 @@ const routes = [
     path: "/createCampaign",
     name: "CreateCampaign",
     component: CreateCampaign,
+  },
+  {
+    path: "/createRequest/:id",
+    name: "createRequests",
+    component: createRequests,
   },
   {
     path: "/about",
