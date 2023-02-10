@@ -1,4 +1,4 @@
-Secure Patrons : Crowdfunding Platform Powered by Ethereum Blockchain
+## Secure Patrons : Crowdfunding Platform Powered by Ethereum Blockchain
 
 ### Problem Statement and Necessity
 Crowdfunding is one of the most popular ways to raise funds for any project, cause or for helping any individual in need. With the onset of Covid we have seen a rise in Crowdfunding activities across the globe which includes small campaigns to help people get oxygen and medical help to large funds such as PM Cares.
@@ -29,6 +29,11 @@ Web3.js <br />
 5ire <br />
 
 ### To run the application locally
+Create .env in the main folder and add
+```
+VUE_APP_ENV_BACKEND=http://127.0.0.1:5000/
+VUE_APP_JWT_KEY=token
+```
 run yarn install to install all the dependencies
 run yarn dev to run the application locally
 
@@ -39,9 +44,10 @@ Request 5ire by sharing your ethereum address with them (5ire.org)
 To Deploy your own Contract
 
 ### Create .env file in Ethereum directory and add these line to it.
-
+```
 mnemonic = 'Your mnemonic code'
 link = 'Your 5ire end point link '
+```
 
 Do the Changes that you want to do inside the Solidity File
 
