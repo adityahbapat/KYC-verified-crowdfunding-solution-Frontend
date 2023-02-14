@@ -1,5 +1,8 @@
 ## Secure Patrons : Crowdfunding Platform Powered by Ethereum Blockchain
 
+### Achievements
+Our project won one of the best projects built using 5ireChain and Best project built using Apyhub at MLH organized Hack This Fall 3.0.
+
 ### Problem Statement and Necessity
 Crowdfunding is one of the most popular ways to raise funds for any project, cause or for helping any individual in need. With the onset of Covid we have seen a rise in Crowdfunding activities across the globe which includes small campaigns to help people get oxygen and medical help to large funds such as PM Cares.
 
